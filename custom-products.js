@@ -1,6 +1,6 @@
 jQuery( function ( $ ) {
 
-  function handleBram2() {
+  function handleCustomItem2() {
 
 
     var value = window.prompt( woocommerce_admin_meta_boxes.i18n_add_fee );
@@ -34,47 +34,34 @@ jQuery( function ( $ ) {
     return false;
   }
 
-  var handleBram = {
+  var handleCustomItem = {
     init: function () {
-      $( '#woocommerce-order-items' ).on( 'click', 'button.add-order-bram', this.add_bram);
+      $( '#woocommerce-order-items' ).on( 'click', 'button.add-order-custom-item', this.add_custom_item);
       $( document.body )
           .on( 'wc_backbone_modal_loaded', this.backbone.init )
           .on( 'wc_backbone_modal_response', this.backbone.response );
     },
-    add_bram: function() {
+    add_custom_item: function() {
       $( this ).WCBackboneModal({
-        template: 'wc-modal-add-bram'
+        template: 'wc-modal-add-custom-item'
       });
     },
     backbone: {
       init: function (e, target) {
-        if ('wc-modal-add-bram' === target) {
-          $('#bram_description').focus();
+        if ('wc-modal-add-custom-item' === target) {
+          $('#custom_item_description').focus();
         }
       },
 
       response: function (e, target, data) {
         console.log(target);
 
-        if ('wc-modal-add-bram' === target) {
+        if ('wc-modal-add-custom-item' === target) {
           console.log(data);
-          handleBram.backbone.add_bram(data);
-        }
-        if ('wc-modal-add-tax' === target) {
-          var rate_id = data.add_order_tax;
-          var manual_rate_id = '';
-
-          if (data.manual_tax_rate_id) {
-            manual_rate_id = data.manual_tax_rate_id;
-          }
-
-          wc_meta_boxes_order_items.backbone.add_tax(rate_id, manual_rate_id);
-        }
-        if ('wc-modal-add-products' === target) {
-          wc_meta_boxes_order_items.backbone.add_item(data.add_order_items);
+          handleCustomItem.backbone.add_custom_item(data);
         }
       },
-      add_bram: function (item) {
+      add_custom_item: function (item) {
         if(item.description != "" && item.value != "") {
           // wc_meta_boxes_order_items.block();
 
@@ -136,5 +123,5 @@ jQuery( function ( $ ) {
     }
   }
 
-  handleBram.init();
+  handleCustomItem.init();
 });

@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Custom Woocommerce Products
+Plugin Name: Custom Woocommerce Order Item
 Plugin URI: http://bramesposito.com
 Description: Custom Woocommerce Products
 Version: 1.0
@@ -12,32 +12,40 @@ Author URI: http://bramesposito.com
 // define the woocommerce_order_item_add_line_buttons callback 
 function action_woocommerce_order_item_add_line_buttons( $order ) { 
 
-    print '<button type="button" class="button add-order-bram">';
-    esc_html_e( 'Add bram', 'woocommerce' );
+    print '<button type="button" class="button add-order-custom-item">';
+    esc_html_e( 'Add Custom Order Item', 'custom-products' );
     print'</button>';
     ?>
-  <script type="text/template" id="tmpl-wc-modal-add-bram">
+  <script type="text/template" id="tmpl-wc-modal-add-custom-item">
     <div class="wc-backbone-modal">
       <div class="wc-backbone-modal-content">
         <section class="wc-backbone-modal-main" role="main">
           <header class="wc-backbone-modal-header">
-            <h1>Add bram</h1>
+            <h1><?php _e("Add Custom Item", 'custom-products'); ?></h1>
             <button class="modal-close modal-close-link dashicons dashicons-no-alt">
               <span class="screen-reader-text">Close modal panel</span>
             </button>
           </header>
           <article>
             <form action="" method="post">
-              <label>Order line description</label>
-              <textarea name="description" id="bram_description" cols="60" rows="5"></textarea>
+              <table class="form-table">
 
-              <label>Cost<input name="value" type="text"></label>
-
+        <tbody><tr><th scope="row"><label for="custom_item_description"><?php _e("Order line description", 'custom-products'); ?>:</label></th>
+          <td>
+            <textarea name="description" id="custom_item_description" cols="60" rows="3"></textarea>
+            <p class="description" id="tagline-description"><?php _e("Describe this custom order item", 'custom-products'); ?>.</p></td>
+          </tr>
+          <tr><th scope="row"><label for="custom-item-cost"><?php _e("Cost", 'custom-products'); ?>:</label></th>
+            <td><input id="custom-item-cost" name="value" type="text">
+              <p class="description" id="tagline-description"><?php _e("Set the price for this item (use decimal notation (.) )", 'custom-products'); ?>.</p></td>
+          </tr>
+        </tbody>
+      </table>
             </form>
           </article>
           <footer>
             <div class="inner">
-              <button id="btn-ok" class="button button-primary button-large">Add</button>
+              <button id="btn-ok" class="button button-primary button-large"><?php _e("Add"); ?></button>
             </div>
           </footer>
         </section>
@@ -53,9 +61,7 @@ add_action( 'woocommerce_order_item_add_line_buttons', 'action_woocommerce_order
 
 
 function custom_products_add_scripts() {
-//  wp_add_inline_script('wc-admin-order-meta-boxes',"$( '#woocommerce-order-items' ).on( 'click', 'button.add-order-bram', this.add_fee )");
   wp_enqueue_script("custom_products",plugins_url( 'custom-products.js', __FILE__ ));
-//  error_log(plugins_url( 'custom_products.js', __FILE__ ));
 }
 
 add_action( 'admin_enqueue_scripts', "custom_products_add_scripts" );
