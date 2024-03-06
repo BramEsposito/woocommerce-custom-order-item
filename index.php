@@ -9,16 +9,14 @@
 */
 
 
-if ( function_exists( 'WC' ) ) {
-  new WoocommerceCustomOrderItemMaster;
-}
-
 class WoocommerceCustomOrderItemMaster {
   public function __construct(){
-    // add the action 
-    add_action( 'woocommerce_order_item_add_line_buttons', [$this, 'Modal'], 10, 1 );
-    add_action( 'admin_enqueue_scripts', [$this , 'Scripts'] );
-    add_action( 'wp_ajax_custom_products_add', [$this , 'Store'] );
+    if ( is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
+      // add the action 
+      add_action( 'woocommerce_order_item_add_line_buttons', [ $this, 'Modal' ], 10, 1 );
+      add_action( 'admin_enqueue_scripts', [ $this , 'Scripts' ] );
+      add_action( 'wp_ajax_custom_products_add', [ $this , 'Store' ] );
+    }
   }
 
   public function Modal( $order ) {
@@ -131,3 +129,4 @@ class WoocommerceCustomOrderItemMaster {
     }
   }
 }
+$WoocommerceCustomOrderItemMaster = new WoocommerceCustomOrderItemMaster;
