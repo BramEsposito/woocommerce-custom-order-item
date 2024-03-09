@@ -54,25 +54,25 @@ jQuery( function ( $ ) {
       },
 
       response: function (e, target, data) {
-        console.log(target);
+        // console.log(target);
 
         if ('wc-modal-add-custom-item' === target) {
-          console.log(data);
+          // console.log(data);
           handleCustomItem.backbone.add_custom_item(data);
         }
       },
       add_custom_item: function (item) {
         if(item.description != "" && item.value != "") {
           // wc_meta_boxes_order_items.block();
-
           var data = $.extend( {}, {}, {
             action  : 'custom_products_add',
             dataType: 'json',
+            count: item.count,
             description: item.description,
             order_id: woocommerce_admin_meta_boxes.post_id,
             security: woocommerce_admin_meta_boxes.order_item_nonce,
             amount  : item.value
-          } );
+          });
 
           $.post( woocommerce_admin_meta_boxes.ajax_url, data, function( response ) {
             if ( response.success ) {
